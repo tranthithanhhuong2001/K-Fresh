@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản của tôi - MijuMeat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="notification.css">
+    <style>
+        .account-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            /* Sidebar - Content */
+            gap: 30px;
+            margin: 40px auto;
+            max-width: 1200px;
+        }
+
+        .acc-sidebar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .user-intro {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: #ee4d2d;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .acc-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .acc-menu li {
+            margin-bottom: 5px;
+        }
+
+        .acc-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .acc-menu a:hover,
+        .acc-menu a.active {
+            background: #fff0ed;
+            color: #ee4d2d;
+        }
+
+        .acc-content {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            min-height: 500px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Profile Form */
+        .profile-form {
+            max-width: 600px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            width: 150px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-input-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-input:disabled {
+            background: #f9f9f9;
+            color: #888;
+        }
+
+        /* Password Toggle */
+        .pass-toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+        }
+
+        /* Order List */
+        .my-order-card {
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .my-order-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .order-status {
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-wait {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-done {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Modal CSS */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 2000;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #555;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="mijumeat.html" class="logo">
+                <img src="logo.png" alt="MijuMeat Logo">
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="mijumeat.html">Trang chủ</a></li>
+                    <li><a href="mijumeat.html#products">Sản phẩm</a></li>
+                    <li><a href="order-lookup.html">Tra cứu đơn hàng</a></li>
+                    <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span id="cart-count"
+                                class="badge">0</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container account-layout">
+        <!-- Sidebar -->
+        <aside class="acc-sidebar">
+            <div class="user-intro">
+                <div class="user-avatar" id="acc-avatar">A</div>
+                <div>
+                    <strong id="acc-name-sidebar">Nguyễn Văn A</strong>
+                </div>
+            </div>
+            <ul class="acc-menu">
+                <li><a href="#" onclick="switchAccTab('profile')" id="nav-profile" class="active"><i
+                            class="fa-regular fa-user"></i> Tài khoản của tôi</a></li>
+                <li><a href="#" onclick="switchAccTab('orders')" id="nav-orders"><i
+                            class="fa-solid fa-clock-rotate-left"></i> Đơn mua</a></li>
+                <li><a href="#" onclick="logoutUser()" style="color: #dc3545;"><i
+                            class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
+            </ul>
+        </aside>
+
+        <!-- Content -->
+        <div class="acc-content">
+
+            <!-- PROFILE TAB -->
+            <div id="tab-profile">
+                <h2 class="section-title">Hồ sơ của tôi</h2>
+                <div class="profile-form">
+                    <div class="form-row">
+                        <label class="form-label">ID</label>
+                        <div class="form-input-box">
+                            <input type="text" class="form-input" id="prof-username" disabled
+                                style="background-color: #f5f5f5;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Tên</label>
+                        <div class="form-input-box">
+                            <input type="text" class="form-input" id="prof-name" disabled
+                                style="background-color: #f9f9f9;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Số điện thoại</label>
+                        <div class="form-input-box">
+                            <input type="text" class="form-input" id="prof-phone" disabled
+                                style="background-color: #f9f9f9;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Email</label>
+                        <div class="form-input-box">
+                            <input type="email" class="form-input" id="prof-email" disabled
+                                style="background-color: #f9f9f9;">
+                        </div>
+                    </div>
+
+                    <!-- Password Field with Change Link -->
+                    <div class="form-row">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="form-input-box" style="display: flex; align-items: center; gap: 10px;">
+                            <div style="position: relative; flex: 1;">
+                                <input type="password" class="form-input" id="prof-current-pass" value="******" readonly
+                                    style="background-color: #f9f9f9;">
+                                <button class="pass-toggle-btn" onclick="toggleViewPass('prof-current-pass', this)"><i
+                                        class="fa-solid fa-eye-slash"></i></button>
+                            </div>
+                            <a href="#" onclick="openChangePassModal()"
+                                style="color: #ee4d2d; font-size: 0.9rem; white-space: nowrap;">Thay đổi mật khẩu</a>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="form-label">Địa chỉ mặc định</label>
+                        <div class="form-input-box">
+                            <input type="text" class="form-input" id="prof-address" placeholder="Thêm địa chỉ giao hàng"
+                                disabled style="background-color: #f9f9f9;">
+                        </div>
+                    </div>
+
+                    <!-- Edit Profile Button -->
+                    <div id="profile-actions" style="margin-top: 20px;">
+                        <button class="btn-primary" id="btn-edit-profile" onclick="enableEditProfile()"
+                            style="padding: 10px 30px; border-radius: 4px; background: #fff; color: #ee4d2d; border: 1px solid #ee4d2d;">
+                            <i class="fa-solid fa-pen"></i> Sửa hồ sơ
+                        </button>
+                        <button class="btn-primary" id="btn-save-profile" onclick="saveProfile()"
+                            style="padding: 10px 30px; border-radius: 4px; display: none;">
+                            Lưu thông tin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Change Password Modal -->
+                <div id="password-modal" class="modal">
+                    <div class="modal-content" style="max-width: 400px;">
+                        <div class="modal-header">
+                            <h2>Đổi mật khẩu</h2>
+                            <button class="btn-icon" onclick="closeChangePassModal()"><i
+                                    class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div class="form-group">
+                                <label>Mật khẩu cũ</label>
+                                <input type="password" id="cp-old" class="form-input"
+                                    placeholder="Nhập mật khẩu hiện tại">
+                            </div>
+                            <div class="form-group">
+                                <label>Mật khẩu mới (tối thiểu 6 ký tự)</label>
+                                <input type="password" id="cp-new" class="form-input" placeholder="Nhập mật khẩu mới">
+                            </div>
+                            <div class="form-group">
+                                <label>Xác nhận mật khẩu mới</label>
+                                <input type="password" id="cp-renew" class="form-input"
+                                    placeholder="Nhập lại mật khẩu mới">
+                            </div>
+                            <p id="cp-error" style="color: red; font-size: 0.85rem; display: none;"></p>
+                            <div style="text-align: right; margin-top: 20px;">
+                                <button class="btn-primary" onclick="handleChangePassword()">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORDERS TAB -->
+            <div id="tab-orders" style="display: none;">
+                <h2 class="section-title">Đơn hàng của tôi</h2>
+                <div id="my-orders-list">
+                    <!-- Loaded via JS -->
+                    <p style="text-align: center; color: #888;">Đang tải...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <script src="notification.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Check Auth
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+
+        // Init Data
+        document.addEventListener('DOMContentLoaded', () => {
+            // AUTO-FIX: Update ID to match phone suffix if needed (Specific User Request)
+            const phoneSuffix = currentUser.phone.slice(-3);
+            if (!currentUser.id.endsWith(phoneSuffix)) {
+                // Keep the prefix numbering (first 5 chars: MJxxx) and update suffix
+                const prefix = currentUser.id.substring(0, 5);
+                // If prefix is not standard (e.g. short), default to MJ001
+                const newId = (prefix.length === 5 ? prefix : 'MJ001') + phoneSuffix;
+
+                currentUser.id = newId;
+                // Update Storage
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInStorage(currentUser);
+            }
+
+            // Fill Sidebar
+            document.getElementById('acc-name-sidebar').textContent = currentUser.name;
+            document.getElementById('acc-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+            // Fill Form
+            document.getElementById('prof-username').value = currentUser.id;
+            document.getElementById('prof-name').value = currentUser.name;
+            document.getElementById('prof-email').value = currentUser.email;
+            document.getElementById('prof-phone').value = currentUser.phone;
+            document.getElementById('prof-address').value = currentUser.address || '';
+            document.getElementById('prof-current-pass').value = currentUser.pass; // Populate actual password
+
+            loadMyOrders();
+        });
+
+        function toggleViewPass(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye-slash';
+            }
+        }
+
+        function switchAccTab(tab) {
+            if (tab === 'profile') {
+                document.getElementById('tab-profile').style.display = 'block';
+                document.getElementById('tab-orders').style.display = 'none';
+                document.getElementById('nav-profile').classList.add('active');
+                document.getElementById('nav-orders').classList.remove('active');
+            } else {
+                document.getElementById('tab-profile').style.display = 'none';
+                document.getElementById('tab-orders').style.display = 'block';
+                document.getElementById('nav-profile').classList.remove('active');
+                document.getElementById('nav-orders').classList.add('active');
+            }
+        }
+
+        function togglePass(id) {
+            const input = document.getElementById(id);
+            if (input.type === 'password') input.type = 'text';
+            else input.type = 'password';
+        }
+
+        function enableEditProfile() {
+            document.getElementById('prof-name').disabled = false;
+            document.getElementById('prof-phone').disabled = false;
+            document.getElementById('prof-email').disabled = false;
+            document.getElementById('prof-address').disabled = false;
+
+            // Visual feedback
+            document.getElementById('prof-name').style.backgroundColor = '#fff';
+            document.getElementById('prof-phone').style.backgroundColor = '#fff';
+            document.getElementById('prof-email').style.backgroundColor = '#fff';
+            document.getElementById('prof-address').style.backgroundColor = '#fff';
+            document.getElementById('prof-name').focus();
+
+            document.getElementById('btn-edit-profile').style.display = 'none';
+            document.getElementById('btn-save-profile').style.display = 'inline-block';
+        }
+
+        function saveProfile() {
+            const updatedUser = {
+                ...currentUser,
+                name: document.getElementById('prof-name').value,
+                phone: document.getElementById('prof-phone').value,
+                email: document.getElementById('prof-email').value,
+                address: document.getElementById('prof-address').value
+            };
+
+            // Basic validation
+            if (!updatedUser.name || !updatedUser.phone || !updatedUser.email) {
+                alert('Vui lòng điền đầy đủ thông tin (Tên, SĐT, Email)!');
+                return;
+            }
+
+            // Save to LS (Must update in 'users' array too)
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser)); // Update Session
+            updateUserInStorage(updatedUser); // Update DB
+
+            alert('Cập nhật hồ sơ thành công!');
+
+            // Reload after 5 seconds (matches notification auto-close)
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+        }
+
+        // --- PASSWORD CHANGE LOGIC ---
+        function openChangePassModal() {
+            document.getElementById('password-modal').classList.add('show');
+            document.getElementById('cp-error').style.display = 'none';
+            document.getElementById('cp-old').value = '';
+            document.getElementById('cp-new').value = '';
+            document.getElementById('cp-renew').value = '';
+        }
+
+        function closeChangePassModal() {
+            document.getElementById('password-modal').classList.remove('show');
+        }
+
+        function handleChangePassword() {
+            const oldPass = document.getElementById('cp-old').value;
+            const newPass = document.getElementById('cp-new').value;
+            const renewPass = document.getElementById('cp-renew').value;
+            const errorMsg = document.getElementById('cp-error');
+
+            if (oldPass !== currentUser.pass) {
+                errorMsg.innerText = 'Mật khẩu cũ không đúng!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (newPass.length < 6) {
+                errorMsg.innerText = 'Mật khẩu mới phải có ít nhất 6 ký tự!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (newPass !== renewPass) {
+                errorMsg.innerText = 'Xác nhận mật khẩu mới không khớp!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Update Password
+            const updatedUser = { ...currentUser, pass: newPass };
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            updateUserInStorage(updatedUser);
+
+            alert('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.');
+            logoutUser();
+        }
+
+        function loadMyOrders() {
+            const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+            // Filter by phone
+            const myOrders = allOrders.filter(o => o.customer.phone === currentUser.phone);
+
+            const container = document.getElementById('my-orders-list');
+            if (myOrders.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #888;"><i class="fa-solid fa-box-open" style="font-size: 40px; margin-bottom: 20px;"></i><p>Bạn chưa có đơn hàng nào.</p><a href="mijumeat.html" style="color: #ee4d2d;">Mua sắm ngay</a></div>';
+                return;
+            }
+
+            container.innerHTML = myOrders.map(order => {
+                const status = order.status || 'Chờ xác nhận';
+                let statusColor = '#f39c12';
+                if (status === 'Hoàn tất') statusColor = '#27ae60';
+                if (status === 'Đã huỷ') statusColor = '#e74c3c';
+
+                return `
+                <div class="my-order-card">
+                    <div class="my-order-header">
+                        <div>
+                            <strong>${order.orderId}</strong>
+                            <span style="color: #888; font-size: 0.9rem; margin-left: 10px;">${order.orderTime}</span>
+                        </div>
+                        <span style="color: ${statusColor}; font-weight: 600;">${status}</span>
+                    </div>
+                    <div>
+                        ${order.items.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size: 0.95rem;"><span>${item.name} x${item.quantity}</span><span>${new Intl.NumberFormat('vi-VN').format(item.price * item.quantity)}đ</span></div>`).join('')}
+                    </div>
+                    <div style="text-align: right; border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;">
+                        Tổng tiền: <strong style="color: #ee4d2d; font-size: 1.1rem;">${new Intl.NumberFormat('vi-VN').format(order.totals.grandTotal)}đ</strong>
+                    </div>
+                    <div style="text-align: right; margin-top: 10px;">
+                        <a href="order-lookup.html?id=${order.orderId}" style="text-decoration:none; color: #ee4d2d; font-size: 0.9rem;">Xem chi tiết ></a>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập / Đăng ký - MijuMeat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="notification.css">
+    <style>
+        .auth-container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #888;
+            transition: 0.3s;
+        }
+
+        .auth-tab.active {
+            color: #ee4d2d;
+            border-bottom: 3px solid #ee4d2d;
+            margin-bottom: -2px;
+        }
+
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #ee4d2d;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 12px;
+            background: #ee4d2d;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-auth:hover {
+            background: #d63c1e;
+        }
+
+        .forgot-pass-link {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .forgot-pass-link a {
+            color: #ee4d2d;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px dashed #eee;
+            padding-top: 20px;
+        }
+
+        .social-login p {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #ee4d2d;
+            border-color: #ee4d2d;
+        }
+
+        .err-msg {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="mijumeat.html" class="logo">
+                <img src="logo.png" alt="MijuMeat Logo">
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="mijumeat.html">Trang chủ</a></li>
+                    <li><a href="mijumeat.html#products">Sản phẩm</a></li>
+                    <li><a href="order-lookup.html">Tra cứu đơn hàng</a></li>
+                    <li><a href="#footer">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="min-height: 600px;">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">Đăng nhập</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">Đăng ký</div>
+            </div>
+
+            <!-- LOGIN -->
+            <div id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="login-phone" placeholder="Nhập số điện thoại">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="login-pass" placeholder="Nhập mật khẩu">
+                        <i class="fa-solid fa-eye-slash" onclick="togglePass('login-pass', this)"></i>
+                    </div>
+                </div>
+                <div class="forgot-pass-link">
+                    <a href="#" onclick="showForgotPass()">Quên mật khẩu?</a>
+                </div>
+                <button class="btn-auth" onclick="handleLogin()">Đăng nhập</button>
+            </div>
+
+            <!-- REGISTER -->
+            <div id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label>Họ và tên <span style="color:red">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" id="reg-name" placeholder="Ví dụ: Nguyễn Văn A">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại <span style="color:red">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="reg-phone" placeholder="Nhập số điện thoại">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div id="reg-phone-err" class="err-msg">SĐT không đúng định dạng hoặc đã tồn tại</div>
+                </div>
+                <div class="form-group">
+                    <label>Email <span style="color:red">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="email" id="reg-email" placeholder="name@example.com">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div id="reg-email-err" class="err-msg">Email không hợp lệ</div>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu <span style="color:red">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" id="reg-pass" placeholder="Tối thiểu 6 ký tự">
+                        <i class="fa-solid fa-eye-slash" onclick="togglePass('reg-pass', this)"></i>
+                    </div>
+                    <div id="reg-pass-err" class="err-msg">Mật khẩu phải từ 6 ký tự</div>
+                </div>
+                <div class="form-group">
+                    <label>Xác nhận mật khẩu <span style="color:red">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" id="reg-repass" placeholder="Nhập lại mật khẩu">
+                    </div>
+                    <div id="reg-repass-err" class="err-msg">Mật khẩu không khớp</div>
+                </div>
+                <button class="btn-auth" onclick="handleRegister()">Đăng ký tài khoản</button>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div id="forgot-form" class="auth-form">
+                <h3 style="text-align: center; margin-bottom: 20px;">Khôi phục mật khẩu</h3>
+                <p style="text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 20px;">
+                    Nhập email hoặc số điện thoại của bạn để nhận mã xác nhận.
+                </p>
+                <div class="form-group">
+                    <label>Email hoặc SĐT</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="forgot-contact" placeholder="Nhập thông tin">
+                    </div>
+                </div>
+                <div id="forgot-step-2" style="display: none;">
+                    <div class="form-group">
+                        <label>Mã xác nhận (OTP)</label>
+                        <input type="text" id="forgot-otp" placeholder="Nhập mã 6 số"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu mới</label>
+                        <input type="password" id="forgot-newpass" placeholder="Nhập mật khẩu mới"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    </div>
+                </div>
+                <button id="forgot-btn" class="btn-auth" onclick="handleForgotFlow()">Gửi mã xác nhận</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" style="color: #888; text-decoration: none;" onclick="showLogin()">Quay lại đăng nhập</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="container footer-content">
+            <p>&copy; 2024 MijuMeat.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline Auth Logic specific to this page
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
+            document.getElementById('forgot-form').classList.remove('active');
+        }
+
+        function togglePass(id, icon) {
+            const input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye-slash';
+            }
+        }
+
+        function showForgotPass() {
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById('forgot-form').classList.add('active');
+        }
+
+        function showLogin() {
+            switchAuthTab('login');
+        }
+
+        // --- AUTH API Logic will be handled in script.js but we define wrappers here ---
+        function handleRegister() {
+            registerUser({
+                name: document.getElementById('reg-name').value,
+                phone: document.getElementById('reg-phone').value,
+                email: document.getElementById('reg-email').value,
+                pass: document.getElementById('reg-pass').value,
+                repass: document.getElementById('reg-repass').value
+            });
+        }
+
+        function handleLogin() {
+            loginUser(
+                document.getElementById('login-phone').value,
+                document.getElementById('login-pass').value
+            );
+        }
+
+        let forgotStep = 1;
+        function handleForgotFlow() {
+            const contact = document.getElementById('forgot-contact').value;
+            if (!contact) { alert('Vui lòng nhập Email hoặc SĐT'); return; }
+
+            if (forgotStep === 1) {
+                alert(`Mã xác nhận đã gửi đến ${contact} (Mã giả lập: 123456)`);
+                document.getElementById('forgot-step-2').style.display = 'block';
+                document.getElementById('forgot-contact').disabled = true;
+                document.getElementById('forgot-btn').textContent = 'Đặt lại mật khẩu';
+                forgotStep = 2;
+            } else {
+                const otp = document.getElementById('forgot-otp').value;
+                const newPass = document.getElementById('forgot-newpass').value;
+                if (otp === '123456' && newPass.length >= 6) {
+                    alert('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.');
+                    showLogin();
+                } else {
+                    alert('Mã OTP sai hoặc mật khẩu quá ngắn.');
+                }
+            }
+        }
+    </script>
+    <script src="notification.js"></script>
+</body>
+
+</html>

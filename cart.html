@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - MijuMeat</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Specific Styles for Cart Page */
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* Standardized Header Components for Cart */
+        .logo {
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo .divider {
+            width: 1px;
+            height: 30px;
+            background: #ddd;
+        }
+
+        .cart-title {
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            transition: color 0.3s;
+        }
+
+        .cart-title:hover {
+            color: #D32F2F;
+        }
+
+        .badge {
+            background-color: #D32F2F;
+            color: white;
+            font-size: 0.9rem;
+            padding: 2px 8px;
+            border-radius: 99px;
+            margin-left: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Cart Table */
+        .cart-container {
+            max-width: 1200px;
+            margin: 20px auto 100px;
+            padding: 0 20px;
+        }
+
+        .cart-table-header {
+            display: grid;
+            grid-template-columns: 50px 1fr 150px 150px 150px 120px;
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 50px 1fr 150px 150px 150px 120px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .product-info img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 1px solid #f2f2f2;
+        }
+
+        .product-name {
+            font-size: 0.95rem;
+            color: #222;
+        }
+
+        .unit-price {
+            color: #222;
+        }
+
+        .quantity-control {
+            display: flex;
+            border: 1px solid #e8e8e8;
+            border-radius: 2px;
+            width: fit-content;
+        }
+
+        .quantity-control button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #fff;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .quantity-control input {
+            width: 50px;
+            border-left: 1px solid #e8e8e8;
+            border-right: 1px solid #e8e8e8;
+            border-top: none;
+            border-bottom: none;
+            text-align: center;
+            outline: none;
+        }
+
+        .subtotal {
+            color: #ee4d2d;
+            font-weight: 500;
+        }
+
+        .actions button {
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .actions button:hover {
+            color: #ee4d2d;
+        }
+
+        /* Fixed Bottom Bar */
+        .cart-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .cart-footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-left span {
+            cursor: pointer;
+        }
+
+        .footer-left span:hover {
+            color: #ee4d2d;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .total-amount {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .total-amount .label {
+            font-size: 1rem;
+        }
+
+        .total-amount .price {
+            color: #ee4d2d;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .buy-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 12px 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .buy-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Checkbox Style */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ee4d2d;
+            cursor: pointer;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 100px 0;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: #e8e8e8;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="mijumeat.html" class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="divider"></div>
+                <span class="cart-title">Giỏ Hàng</span>
+            </a>
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="cart-container">
+        <div class="cart-table-header">
+            <input type="checkbox" id="select-all-header">
+            <div>Sản phẩm</div>
+            <div>Đơn Giá</div>
+            <div>Số Lượng</div>
+            <div>Số Tiền</div>
+            <div>Thao Tác</div>
+        </div>
+
+        <div id="cart-items-list">
+            <!-- Items will be loaded by JS -->
+        </div>
+
+        <!-- If cart is empty -->
+        <div id="empty-cart-view" class="empty-cart" style="display: none;">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <p>Giỏ hàng của bạn còn trống</p>
+            <a href="mijumeat.html" class="btn-primary" style="margin-top: 20px;">Mua sắm ngay</a>
+        </div>
+    </main>
+
+    <footer class="cart-footer">
+        <div class="cart-footer-content" style="flex-direction: column; gap: 15px;">
+            <!-- Main Footer Bar -->
+            <div style="width: 100%; display: flex; align-items: center; justify-content: space-between;">
+                <div class="footer-left"
+                    style="color: #000; font-family: 'Outfit', sans-serif; gap: 30px; display: flex; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="select-all-footer">
+                        <label for="select-all-footer" style="cursor: pointer;">Chọn toàn bộ sản phẩm (<span
+                                id="total-cart-count">0</span>)</label>
+                    </div>
+                    <span style="cursor: pointer; font-weight: 500;">Xóa</span>
+                </div>
+                <div class="footer-right" style="font-family: 'Outfit', sans-serif;">
+                    <div class="total-amount">
+                        <span class="label" style="color: #000;">Tổng tiền (<span
+                                id="selected-count-total">0</span>):</span>
+                        <span class="price" id="cart-total" style="color: #D32F2F;">0₫</span>
+                    </div>
+                    <button class="buy-btn" id="checkout-btn">Tiến hành đặt hàng</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Sidebar -->
+    <div class="contact-sidebar">
+        <a href="https://zalo.me/0938118118" class="contact-button zalo" target="_blank">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span>Chat Zalo</span>
+        </a>
+        <a href="tel:0938118118" class="contact-button hotline">
+            <i class="fa-solid fa-phone-flip"></i>
+            <span>Gọi Hotline</span>
+        </a>
+        <a href="#" class="contact-button chat">
+            <i class="fa-solid fa-headset"></i>
+            <span>Chat trực tiếp</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Specific UI Logic for Cart Page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+        });
+
+        function renderCart() {
+            const cartList = document.getElementById('cart-items-list');
+            const emptyView = document.getElementById('empty-cart-view');
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '';
+                emptyView.style.display = 'block';
+                updateSummary();
+                return;
+            }
+
+            emptyView.style.display = 'none';
+            cartList.innerHTML = cart.map((item, index) => `
+                <div class="cart-item" data-id="${item.id}">
+                    <input type="checkbox" class="item-checkbox" ${item.selected ? 'checked' : ''} onchange="toggleItem(${item.id})">
+                    <div class="product-info">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="product-name">${item.name}</div>
+                    </div>
+                    <div class="unit-price">${item.price.toLocaleString('vi-VN')}₫</div>
+                    <div class="quantity-control">
+                        <button onclick="updateQty(${item.id}, -1)">-</button>
+                        <input type="number" value="${item.quantity}" min="1" onchange="updateQtyInput(${item.id}, this.value)">
+                        <button onclick="updateQty(${item.id}, 1)">+</button>
+                    </div>
+                    <div class="subtotal">${(item.price * item.quantity).toLocaleString('vi-VN')}₫</div>
+                    <div class="actions">
+                        <button onclick="removeFromCart(${item.id})">Xóa</button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateSummary();
+        }
+
+        function updateQty(id, delta) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity = Math.max(1, item.quantity + delta);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        function updateQtyInput(id, value) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity = Math.max(1, parseInt(value) || 1);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        function toggleItem(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.selected = !item.selected;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateSummary();
+            }
+        }
+
+        function removeFromCart(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart = cart.filter(i => i.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function updateSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const selectedItems = cart.filter(i => i.selected);
+            const total = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            const totalItemsCount = cart.length;
+            const selectedItemsCount = selectedItems.length;
+
+            if (document.getElementById('total-cart-count')) {
+                document.getElementById('total-cart-count').textContent = totalItemsCount;
+            }
+            if (document.getElementById('header-cart-count')) {
+                document.getElementById('header-cart-count').textContent = totalItemsCount;
+            }
+            if (document.getElementById('selected-count-total')) {
+                document.getElementById('selected-count-total').textContent = selectedItemsCount;
+            }
+            document.getElementById('cart-total').textContent = total.toLocaleString('vi-VN') + '₫';
+
+            const allSelected = cart.length > 0 && cart.every(i => i.selected);
+            document.getElementById('select-all-header').checked = allSelected;
+            document.getElementById('select-all-footer').checked = allSelected;
+        }
+
+        // Select All handler
+        [document.getElementById('select-all-header'), document.getElementById('select-all-footer')].forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.forEach(item => item.selected = e.target.checked);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            });
+        });
+
+        // Checkout button handler
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const selectedItems = cart.filter(item => item.selected);
+
+            if (selectedItems.length === 0) {
+                alert('Vui lòng chọn ít nhất một sản phẩm để đặt hàng!');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        });
+    </script>
+    <script src="notification.js"></script>
+</body>
+
+</html>

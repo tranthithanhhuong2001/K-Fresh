@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt hàng - MijuMeat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="notification.css">
+</head>
+
+<body style="background-color: #f5f5f5;">
+    <!-- Simple Header for Checkout -->
+    <header class="checkout-header">
+        <div class="container header-container">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="mijumeat.html" class="logo">
+                    <img src="logo.png" alt="MijuMeat Logo">
+                </a>
+                <div style="width: 1px; height: 40px; background-color: #ddd;"></div>
+                <h1 style="font-size: 1.5rem; font-weight: 600; font-family: 'Outfit', sans-serif;">Đặt hàng</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="margin-top: 30px; padding-bottom: 80px;">
+        <!-- Address Section -->
+        <div class="checkout-section address-section">
+            <div class="address-border"></div>
+            <div class="section-content">
+                <div class="section-title">
+                    <span><i class="fa-solid fa-location-dot"></i> Địa Chỉ Nhận Hàng</span>
+                </div>
+                <div class="address-row"
+                    style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 10px;">
+                    <div class="address-info-box" id="address-info" style="flex: 1;">
+                        <div class="user-info" style="margin-bottom: 5px;"><strong id="disp-name">Họ và Tên</strong> |
+                            <span id="disp-phone">Số điện thoại</span>
+                        </div>
+                        <div class="address-text" style="color: #555;" id="disp-address">Vui lòng cập nhật địa chỉ để
+                            hoàn tất đặt hàng.</div>
+                    </div>
+                    <span
+                        style="color: #2672e7; cursor: pointer; font-size: 1.1rem; font-weight: 600; white-space: nowrap;"
+                        onclick="openAddressModal()">Cập nhật</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Modal -->
+        <div id="address-modal" class="modal-checkout">
+            <div class="modal-address-content">
+                <div class="modal-address-header">
+                    <h2>Thiết lập địa chỉ giao hàng</h2>
+                    <span style="cursor: pointer;" onclick="closeAddressModal()"><i
+                            class="fa-solid fa-xmark"></i></span>
+                </div>
+
+                <div class="modal-address-body"
+                    style="max-height: 450px; overflow-y: auto; padding-right: 10px; margin: 15px 0;">
+                    <div class="shipping-notice">
+                        <strong>🚚 Thông báo phạm vi giao hàng:</strong>
+                        Shop hiện giao hàng nội thành TP. Hồ Chí Minh.<br>
+                        <span style="font-size: 0.8rem; display: block; margin-top: 5px; color: #555;">Các khu vực tương
+                            ứng với quận cũ bao gồm: <b>Quận 1, Quận 2, Quận 3, Quận 4, Quận 5, Quận 7, Quận 8, Quận 10,
+                                Thủ Đức.</b></span>
+                        <p style="margin-top: 8px; font-weight: 600;">Vui lòng chọn phường trong danh sách để tiếp tục.
+                        </p>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="address-form-group">
+                            <label>Họ và Tên</label>
+                            <input type="text" id="addr-name" placeholder="Nhập họ và tên...">
+                            <div class="error-message">Vui lòng nhập họ và tên</div>
+                        </div>
+                        <div class="address-form-group">
+                            <label>Số điện thoại</label>
+                            <input type="text" id="addr-phone" placeholder="Nhập số điện thoại (10 số)...">
+                            <div class="error-message">SĐT phải có 10 chữ số và bắt đầu bằng số 0</div>
+                        </div>
+                    </div>
+
+                    <div class="address-form-group">
+                        <label>Gmail</label>
+                        <input type="text" id="addr-email" placeholder="Nhập gmail (VD: abc@gmail.com)...">
+                        <div class="error-message">Gmail không đúng định dạng (abc@gmail.com)</div>
+                    </div>
+
+                    <div class="address-form-group">
+                        <label>Thành phố</label>
+                        <select id="addr-city">
+                            <option value="hcm">Thành phố Hồ Chí Minh</option>
+                        </select>
+                    </div>
+
+                    <div class="address-form-group">
+                        <label>Phường (Chọn trong danh sách)</label>
+                        <div class="searchable-select-container">
+                            <input type="text" id="ward-search" class="search-input-field"
+                                placeholder="Tìm kiếm phường (VD: Tân Hưng)..." autocomplete="off"
+                                onfocus="showWardDropdown()" oninput="filterWards()">
+                            <div id="ward-dropdown" class="ward-list-dropdown">
+                                <!-- Wards will be populated by JS -->
+                            </div>
+                        </div>
+                        <div class="error-message">Vui lòng chọn phường trong danh sách</div>
+                    </div>
+
+                    <div class="address-form-group">
+                        <label>Khu vực (Tự động)</label>
+                        <input type="text" id="addr-area" readonly placeholder="Quận/Huyện">
+                    </div>
+
+                    <div class="address-form-group">
+                        <label>Địa chỉ chi tiết</label>
+                        <input type="text" id="addr-detail" placeholder="Số nhà, tên đường, tên tòa nhà/chung cư...">
+                        <div class="error-message">Vui lòng nhập địa chỉ chi tiết</div>
+                    </div>
+                </div>
+
+                <div class="modal-address-footer">
+                    <button class="btn-cancel-address" onclick="closeAddressModal()">Huỷ</button>
+                    <button class="btn-save-address" onclick="saveAddress()">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Items Section -->
+        <div class="checkout-section items-section">
+            <div class="section-title"
+                style="border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 0;">
+                Thông tin sản phẩm
+            </div>
+            <div class="checkout-table-header">
+                <div class="col-product">Sản phẩm</div>
+                <div class="col-price">Đơn giá</div>
+                <div class="col-qty">Số lượng</div>
+                <div class="col-total">Thành tiền</div>
+            </div>
+            <div id="checkout-items-list" class="checkout-items-list">
+                <!-- Items will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Shipping Section -->
+        <div class="checkout-section shipping-section">
+            <div class="section-title">Phương thức vận chuyển (TP. Hồ Chí Minh)</div>
+            <div class="shipping-options">
+                <label class="shipping-option" id="ship-today">
+                    <input type="radio" name="shipping" value="today" onchange="updateTotals()">
+                    <div class="option-details">
+                        <span class="option-name">Giao hàng trong ngày (đối với đơn đặt trước 14h)</span>
+                        <span class="option-desc">Giao nhanh trong nội thành TP. HCM</span>
+                    </div>
+                </label>
+                <label class="shipping-option" id="ship-tomorrow">
+                    <input type="radio" name="shipping" value="tomorrow" onchange="updateTotals()">
+                    <div class="option-details">
+                        <span class="option-name">Giao hàng vào ngày mai (đối với đơn đặt sau 14h)</span>
+                        <span class="option-desc">Giao hàng tiêu chuẩn vào ngày làm việc tiếp theo</span>
+                    </div>
+                </label>
+                <label class="shipping-option" id="ship-pickup">
+                    <input type="radio" name="shipping" value="pickup" onchange="updateTotals()">
+                    <div class="option-details">
+                        <span class="option-name">Trực tiếp lấy tại cửa hàng</span>
+                        <span class="option-desc">Khách hàng sẽ ghé ngang cửa hàng để lấy hàng</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Extra section -->
+        <div class="checkout-section extra-section">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 150px;">
+                <div class="discount-box" style="flex: 1;">
+                    <label>Mã giảm giá</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" placeholder="Nhập mã voucher...">
+                        <button class="apply-btn">Áp dụng</button>
+                    </div>
+                </div>
+                <div style="flex: 1; padding-top: 25px;">
+                    <label
+                        style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; color: #333;">
+                        <input type="checkbox" id="vat-checkbox" onchange="toggleVATForm()"> Xuất hoá đơn VAT điện tử
+                    </label>
+
+                    <div id="vat-form"
+                        style="display: none; margin-top: 15px; background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <div class="vat-form-group" style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Tên
+                                công ty <span style="color: red;">*</span></label>
+                            <input type="text" id="vat-company" placeholder="Nhập tên chính xác trên GPKD..."
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <div class="vat-error"
+                                style="color: #ef4444; font-size: 0.75rem; margin-top: 3px; display: none;">Vui lòng
+                                nhập tên công ty</div>
+                        </div>
+                        <div class="vat-form-group" style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Mã
+                                số thuế <span style="color: red;">*</span></label>
+                            <input type="text" id="vat-tax-code" placeholder="Mã số thuế doanh nghiệp..."
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <div class="vat-error"
+                                style="color: #ef4444; font-size: 0.75rem; margin-top: 3px; display: none;">Vui lòng
+                                nhập mã số thuế</div>
+                        </div>
+                        <div class="vat-form-group" style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Địa
+                                chỉ công ty <span style="color: red;">*</span></label>
+                            <input type="text" id="vat-address" placeholder="Địa chỉ đăng ký kinh doanh..."
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <div class="vat-error"
+                                style="color: #ef4444; font-size: 0.75rem; margin-top: 3px; display: none;">Vui lòng
+                                nhập địa chỉ công ty</div>
+                        </div>
+                        <div class="vat-form-group">
+                            <label
+                                style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Email
+                                nhận hóa đơn <span style="color: red;">*</span></label>
+                            <input type="email" id="vat-email" placeholder="Địa chỉ email nhận hóa đơn tự động..."
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <div class="vat-error"
+                                style="color: #ef4444; font-size: 0.75rem; margin-top: 3px; display: none;">Email không
+                                hợp lệ hoặc để trống</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="checkout-section summary-section">
+            <div class="payment-method">
+                <div class="section-title">Phương thức thanh toán</div>
+                <div class="payment-option">
+                    <div class="selected-payment">Thanh toán tiền khi nhận hàng (COD)</div>
+                </div>
+            </div>
+            <div class="order-summary">
+                <div class="summary-row">
+                    <span>Tổng tiền hàng:</span>
+                    <span id="subtotal">0₫</span>
+                </div>
+                <div class="summary-row">
+                    <span>Phí vận chuyển:</span>
+                    <span id="shipping-fee">0₫</span>
+                </div>
+                <div class="summary-total">
+                    <span>Tổng số tiền:</span>
+                    <span id="grand-total">0₫</span>
+                </div>
+                <button class="place-order-btn" onclick="handlePlaceOrder()">ĐẶT HÀNG</button>
+            </div>
+        </div>
+    </main>
+
+    <footer
+        style="background: #fff; padding: 30px 0; border-top: 1px solid #eee; text-align: center; color: #888; font-size: 0.9rem;">
+        <div class="container">
+            &copy; 2024 MijuMeat. Chất lượng tạo nên thương hiệu.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCheckout();
+        });
+
+        function renderCheckout() {
+            const container = document.getElementById('checkout-items-list');
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const selectedItems = cart.filter(item => item.selected);
+
+            if (selectedItems.length === 0) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            container.innerHTML = selectedItems.map(item => `
+                <div class="checkout-item">
+                    <div class="col-product">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="product-name-checkout">${item.name}</div>
+                    </div>
+                    <div class="col-price">${formatPrice(item.price)}</div>
+                    <div class="col-qty">x${item.quantity}</div>
+                    <div class="col-total">${formatPrice(item.price * item.quantity)}</div>
+                </div>
+            `).join('');
+
+            checkShippingTime();
+            updateTotals();
+        }
+
+        function checkShippingTime() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const todayOption = document.getElementById('ship-today');
+            const tomorrowOption = document.getElementById('ship-tomorrow');
+            const todayInput = todayOption.querySelector('input');
+            const tomorrowInput = tomorrowOption.querySelector('input');
+
+            if (currentHour < 14) {
+                // Before 14h: "Tomorrow" is dimmed
+                todayOption.classList.remove('disabled');
+                todayInput.disabled = false;
+                todayInput.checked = true;
+
+                tomorrowOption.classList.add('disabled');
+                tomorrowInput.disabled = true;
+                tomorrowInput.checked = false;
+            } else {
+                // After 14h: "Today" is dimmed
+                todayOption.classList.add('disabled');
+                todayInput.disabled = true;
+                todayInput.checked = false;
+
+                tomorrowOption.classList.remove('disabled');
+                tomorrowInput.disabled = false;
+                tomorrowInput.checked = true;
+            }
+        }
+
+        function updateTotals() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const selectedItems = cart.filter(item => item.selected);
+            const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Highlight selected shipping option
+            document.querySelectorAll('.shipping-option').forEach(el => el.classList.remove('active'));
+            const selectedInput = document.querySelector('input[name="shipping"]:checked');
+            if (selectedInput) {
+                selectedInput.closest('.shipping-option').classList.add('active');
+            }
+
+            // Shipping logic
+            const shippingMethod = selectedInput ? selectedInput.value : '';
+            let shippingFee = 0;
+
+            if (shippingMethod === 'pickup' || !shippingMethod) {
+                shippingFee = 0;
+            } else {
+                // today or tomorrow
+                if (subtotal >= 1000000) {
+                    shippingFee = 0;
+                } else {
+                    shippingFee = 40000;
+                }
+            }
+
+            const total = subtotal + shippingFee;
+
+            if (document.getElementById('subtotal')) document.getElementById('subtotal').textContent = formatPrice(subtotal);
+            if (document.getElementById('shipping-fee')) document.getElementById('shipping-fee').textContent = formatPrice(shippingFee);
+            if (document.getElementById('grand-total')) document.getElementById('grand-total').textContent = formatPrice(total);
+        }
+
+        const wardAreaMap = {
+            "Phường Bến Nghé": "Quận 1 - trước sát nhập",
+            "Phường Bến Thành": "Quận 1 - trước sát nhập",
+            "Phường Cầu Ông Lãnh": "Quận 1 - trước sát nhập",
+            "Phường Nguyễn Thái Bình": "Quận 1 - trước sát nhập",
+            "Phường An Khánh": "Quận 2 - trước sát nhập (nay TP Thủ Đức)",
+            "Phường An Phú": "Quận 2 - trước sát nhập (nay TP Thủ Đức)",
+            "Phường Thảo Điền": "Quận 2 - trước sát nhập (nay TP Thủ Đức)",
+            "Phường Bình Trưng": "Quận 2 - trước sát nhập (nay TP Thủ Đức)",
+            "Phường Võ Thị Sáu": "Quận 3 - trước sát nhập",
+            "Phường Bàn Cờ": "Quận 3 - trước sát nhập",
+            "Phường Xuân Hoà": "Quận 3 - trước sát nhập",
+            "Phường Khánh Hội": "Quận 4 - trước sát nhập",
+            "Phường Vĩnh Hội": "Quận 4 - trước sát nhập",
+            "Phường Cầu Kho": "Quận 4 - trước sát nhập",
+            "Phường Chợ Lớn": "Quận 5 - trước sát nhập",
+            "Phường An Đông": "Quận 5 - trước sát nhập",
+            "Phường Hùng Vương": "Quận 5 - trước sát nhập",
+            "Phường Tân Hưng": "Quận 7 - trước sát nhập",
+            "Phường Tân Phú": "Quận 7 - trước sát nhập",
+            "Phường Tân Thuận": "Quận 7 - trước sát nhập",
+            "Phường Phú Mỹ": "Quận 7 - trước sát nhập",
+            "Phường Bình Đông": "Quận 8 - trước sát nhập",
+            "Phường Phú Định": "Quận 8 - trước sát nhập",
+            "Phường Rạch Ông": "Quận 8 - trước sát nhập",
+            "Phường Hoà Hưng": "Quận 10 - trước sát nhập",
+            "Phường Vĩnh Viễn": "Quận 10 - trước sát nhập",
+            "Phường Nhật Tảo": "Quận 10 - trước sát nhập",
+            "Phường Linh Xuân": "TP Thủ Đức - trước sát nhập",
+            "Phường Linh Trung": "TP Thủ Đức - trước sát nhập",
+            "Phường Hiệp Bình": "TP Thủ Đức - trước sát nhập",
+            "Phường Tam Bình": "TP Thủ Đức - trước sát nhập",
+            "Phường Thủ Đức": "TP Thủ Đức - trước sát nhập"
+        };
+
+        function openAddressModal() {
+            document.getElementById('address-modal').classList.add('show');
+            initWardList();
+        }
+
+        function closeAddressModal() {
+            document.getElementById('address-modal').classList.remove('show');
+        }
+
+        function initWardList() {
+            const dropdown = document.getElementById('ward-dropdown');
+            dropdown.innerHTML = Object.keys(wardAreaMap).map(ward =>
+                `<div class="ward-item" onclick="selectWard('${ward}')">${ward}</div>`
+            ).join('');
+        }
+
+        function filterWards() {
+            const query = document.getElementById('ward-search').value.toLowerCase();
+            const items = document.querySelectorAll('.ward-item');
+            let hasVisible = false;
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'block';
+                    hasVisible = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            document.getElementById('ward-dropdown').classList.toggle('show', hasVisible);
+        }
+
+        function showWardDropdown() {
+            document.getElementById('ward-dropdown').classList.add('show');
+        }
+
+        function selectWard(ward) {
+            document.getElementById('ward-search').value = ward;
+            document.getElementById('addr-area').value = wardAreaMap[ward];
+            document.getElementById('ward-dropdown').classList.remove('show');
+        }
+
+        function saveAddress() {
+            const nameEl = document.getElementById('addr-name');
+            const phoneEl = document.getElementById('addr-phone');
+            const emailEl = document.getElementById('addr-email');
+            const wardSearchEl = document.getElementById('ward-search');
+            const detailEl = document.getElementById('addr-detail');
+
+            const name = nameEl.value.trim();
+            const phone = phoneEl.value.trim();
+            const email = emailEl.value.trim();
+            const ward = wardSearchEl.value.trim();
+            const area = document.getElementById('addr-area').value;
+            const detail = detailEl.value.trim();
+
+            // Reset errors
+            document.querySelectorAll('.address-form-group').forEach(el => {
+                el.classList.remove('has-error');
+                const input = el.querySelector('input, select');
+                if (input) input.classList.remove('error-border');
+            });
+
+            let isValid = true;
+            let firstErrorEl = null;
+
+            function markError(el, condition) {
+                if (condition) {
+                    const group = el.closest('.address-form-group');
+                    group.classList.add('has-error');
+                    el.classList.add('error-border');
+                    isValid = false;
+                    if (!firstErrorEl) firstErrorEl = el;
+                }
+            }
+
+            // Validation rules (Top-down order)
+            markError(nameEl, !name);
+
+            // Phone: 10 digits, starts with 0
+            const phoneRegex = /^0\d{9}$/;
+            markError(phoneEl, !phoneRegex.test(phone));
+
+            // Email: strict @gmail.com
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            markError(emailEl, !emailRegex.test(email));
+
+            // Ward selection
+            markError(wardSearchEl, !ward || !wardAreaMap[ward]);
+
+            // Detail address
+            markError(detailEl, !detail);
+
+            if (!isValid) {
+                if (firstErrorEl) firstErrorEl.focus();
+                return;
+            }
+
+            // Success - Update Display
+            document.getElementById('disp-name').textContent = name;
+            document.getElementById('disp-phone').textContent = phone;
+            document.getElementById('disp-address').innerHTML = `${detail}, ${ward}, TP. Hồ Chí Minh<br><i>(${area})</i>`;
+
+            closeAddressModal();
+        }
+
+        // Hide dropdown on outside click
+        window.addEventListener('click', (e) => {
+            if (!document.querySelector('.searchable-select-container').contains(e.target)) {
+                document.getElementById('ward-dropdown').classList.remove('show');
+            }
+        });
+
+        function toggleVATForm() {
+            const form = document.getElementById('vat-form');
+            const isChecked = document.getElementById('vat-checkbox').checked;
+            form.style.display = isChecked ? 'block' : 'none';
+        }
+
+        function handlePlaceOrder() {
+            // 1. Check Address
+            const addrText = document.getElementById('disp-address').textContent;
+            if (addrText.includes('Vui lòng cập nhật')) {
+                alert('Vui lòng thiết lập địa chỉ giao hàng trước khi đặt hàng.');
+                openAddressModal();
+                return;
+            }
+
+            // 2. Check Cart & Selected Items
+            const allItems = JSON.parse(localStorage.getItem('cart') || '[]');
+            const selectedItems = allItems.filter(item => item.selected);
+            if (selectedItems.length === 0) {
+                alert('Giỏ hàng trống hoặc chưa có sản phẩm nào được chọn.');
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            // 3. VAT Validation
+            const vatCheckbox = document.getElementById('vat-checkbox');
+            if (vatCheckbox && vatCheckbox.checked) {
+                const fields = ['vat-company', 'vat-tax-code', 'vat-address', 'vat-email'];
+                let firstInvalid = null;
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    const val = el.value.trim();
+                    let invalid = !val;
+                    if (id === 'vat-email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) invalid = true;
+                    if (invalid) {
+                        el.style.borderColor = '#ef4444';
+                        if (el.nextElementSibling) el.nextElementSibling.style.display = 'block';
+                        if (!firstInvalid) firstInvalid = el;
+                    } else {
+                        el.style.borderColor = '#ddd';
+                        if (el.nextElementSibling) el.nextElementSibling.style.display = 'none';
+                    }
+                });
+                if (firstInvalid) {
+                    alert('Vui lòng hoàn tất thông tin xuất hóa đơn VAT.');
+                    firstInvalid.focus();
+                    return;
+                }
+            }
+
+            // 4. Generate Order Data
+            const now = new Date();
+            const dateStr = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+            let orderCounter = JSON.parse(localStorage.getItem('orderCounter') || '{}');
+            if (orderCounter.date !== dateStr) orderCounter = { date: dateStr, count: 0 };
+            orderCounter.count++;
+            localStorage.setItem('orderCounter', JSON.stringify(orderCounter));
+
+            const orderId = `MJ-${dateStr}-${String(orderCounter.count).padStart(3, '0')}`;
+            const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shippingMethod = document.querySelector('input[name="shipping"]:checked')?.value || 'pickup';
+            const shippingFee = (shippingMethod !== 'pickup' && subtotal < 1000000) ? 40000 : 0;
+            const orderData = {
+                orderId: orderId,
+                orderTime: now.toLocaleString('vi-VN'),
+                customer: {
+                    name: document.getElementById('disp-name').textContent,
+                    phone: document.getElementById('disp-phone').textContent,
+                    address: addrText.replace(/\s+/g, ' ').trim()
+                },
+                items: selectedItems,
+                totals: { subtotal, shippingFee, grandTotal: subtotal + shippingFee },
+                shipping: {
+                    method: { 'today': 'Giao hàng trong ngày', 'tomorrow': 'Giao hàng vào ngày mai', 'pickup': 'Trực tiếp lấy tại cửa hàng' }[shippingMethod],
+                    area: 'Nội thành TP. Hồ Chí Minh'
+                },
+                payment: { method: 'Thanh toán khi nhận hàng (COD)' },
+                vat: vatCheckbox.checked ? {
+                    company: document.getElementById('vat-company').value.trim(),
+                    taxCode: document.getElementById('vat-tax-code').value.trim(),
+                    address: document.getElementById('vat-address').value.trim(),
+                    email: document.getElementById('vat-email').value.trim()
+                } : null
+            };
+
+            // 5. Save & Redirect
+            localStorage.setItem('recentOrder', JSON.stringify(orderData));
+
+            // Push to allOrders for Admin
+            const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+            allOrders.unshift(orderData); // Add new order to the beginning
+            localStorage.setItem('allOrders', JSON.stringify(allOrders));
+
+            localStorage.setItem('cart', JSON.stringify(allItems.filter(item => !item.selected)));
+            window.location.href = 'order-success.html';
+        }
+    </script>
+    <script src="notification.js"></script>
+
+</body>
+
+</html>

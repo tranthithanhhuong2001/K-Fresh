@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thịt Bò Sạch - MijuMeat</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="MijuMeat Logo">
+            </a>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="mijumeat.html">Trang chủ</a></li>
+                    <li><a href="bo.html" class="active">Sản phẩm</a></li>
+
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span id="cart-count"
+                                class="badge">0</span></a></li>
+                    <li><a href="order-lookup.html">Tra cứu đơn hàng</a></li>
+                </ul>
+            </nav>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm...">
+                <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Thịt Bò</h1>
+                <p>Cung cấp các loại thịt bò thượng hạng, tươi ngon mỗi ngày.</p>
+                <a href="#products" class="btn-primary">Xem Sản Phẩm</a>
+            </div>
+        </section>
+
+        <div class="breadcrumb-container container">
+            <div class="breadcrumb">
+                <a href="mijumeat.html">Trang chủ</a> <span class="breadcrumb-separator">/</span> <a
+                    href="mijumeat.html#products">Sản Phẩm</a> <span class="breadcrumb-separator">/</span> <span>Thịt
+                    bò</span>
+            </div>
+        </div>
+
+        <section id="products" class="products-section container">
+            <div class="section-header">
+                <h2>Sản Phẩm Thịt Bò</h2>
+                <!-- Removed category cards manually here -->
+            </div>
+
+            <div class="shop-filter-bar">
+                <div class="filter-controls">
+                    <div class="filter-item">
+                        <label>Danh mục</label>
+                        <select id="shop-category-filter" class="shop-select" onchange="applyShopFilters()">
+                            <option value="beef" selected>Thịt Bò</option>
+                            <option value="pork">Thịt Heo</option>
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Giá</label>
+                        <select id="shop-price-filter" class="shop-select" onchange="applyShopFilters()">
+                            <option value="all">Tất cả mức giá</option>
+                            <option value="0-100">Dưới 100.000₫</option>
+                            <option value="100-300">100.000₫ - 300.000₫</option>
+                            <option value="300-500">300.000₫ - 500.000₫</option>
+                            <option value="500-up">Trên 500.000₫</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sort-controls">
+                    <label>Sắp xếp:</label>
+                    <select id="shop-sort" class="shop-select" onchange="applyShopFilters()">
+                        <option value="newest">Mới nhất</option>
+                        <option value="price-asc">Giá: Thấp đến Cao</option>
+                        <option value="price-desc">Giá: Cao đến Thấp</option>
+                        <option value="best-selling">Bán chạy</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="product-list" class="product-grid">
+                <!-- Products will be rendered here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2024 MeatShop. Chất lượng tạo nên thương hiệu.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

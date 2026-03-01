@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm - MijuMeat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="mijumeat.html" class="logo">
+                <img src="logo.png" alt="MijuMeat Logo">
+            </a>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="mijumeat.html">Trang chủ</a></li>
+                    <li><a href="mijumeat.html#products">Sản phẩm</a></li>
+
+                    <li><a href="#footer">Liên hệ</a></li>
+                    <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span id="cart-count"
+                                class="badge">0</span></a></li>
+                    <li><a href="order-lookup.html">Tra cứu đơn hàng</a></li>
+                </ul>
+            </nav>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm...">
+                <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container detail-container">
+        <div class="breadcrumb">
+            <a href="mijumeat.html">Trang chủ</a> <span class="breadcrumb-separator">/</span> <a
+                href="mijumeat.html#products">Sản Phẩm</a> <span class="breadcrumb-separator">/</span> <a href="#"
+                id="detail-category-link">Danh mục</a> <span class="breadcrumb-separator">/</span> <span
+                id="detail-name-breadcrumb">Sản phẩm</span>
+        </div>
+
+        <div class="product-detail-wrapper">
+            <div class="detail-gallery">
+                <img id="detail-image" src="" alt="">
+            </div>
+            <div class="detail-info">
+                <h1 id="detail-name">Tên sản phẩm</h1>
+                <div id="detail-weight" class="detail-weight-info">
+                    Khối lượng: 0g
+                </div>
+                <div class="detail-price-box">
+                    <span id="detail-price" class="price-large">Giá: 0đ</span>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p id="detail-desc-text"></p>
+                </div>
+                <div class="detail-actions" style="display: flex; align-items: center; gap: 20px; margin-top: 40px;">
+                    <div class="qty-control"
+                        style="background: #fff; border: 1px solid #ddd; padding: 5px; height: 45px;">
+                        <button onclick="updateDetailQty(-1)" style="box-shadow: none;"><i
+                                class="fa-solid fa-minus"></i></button>
+                        <span id="detail-qty-val" class="qty-value" style="width: 40px;">1</span>
+                        <button onclick="updateDetailQty(1)" style="box-shadow: none;"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <button id="add-to-cart-detail" class="btn-primary"
+                        style="height: 45px; padding: 0 40px; border-radius: 99px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="container footer-content">
+            <div class="footer-info-left">
+                <a href="index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                    <img src="logo.png" alt="Logo" style="height: 70px; border-radius: 10px;">
+                </a>
+                <p style="color: #888; margin-top: 10px; max-width: 400px;">Hệ thống cung cấp thịt bò, thịt heo tươi
+                    sạch hàng đầu, cam kết chất lượng chuẩn quốc tế cho bữa cơm gia đình bạn.</p>
+            </div>
+            <div class="footer-info-right">
+                <h3>THÔNG TIN LIÊN HỆ</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Địa chỉ: Số 5, Nội khu Hưng Phước 1, phường Tân Hưng, Thành
+                    phố Hồ Chí Minh.</p>
+                <p><i class="fa-solid fa-phone"></i> Hotline: 0938.118.118</p>
+                <p><i class="fa-solid fa-globe"></i> Fanpage: <a href="http://www.facebook.com/MijuMeat"
+                        style="color: #ccc; text-decoration: none;">www.facebook.com/MijuMeat</a></p>
+                <p><i class="fa-solid fa-envelope"></i> Gmail: MijuMeat@gmail.com</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MijuMeat. Chất lượng tạo nên thương hiệu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Sidebar -->
+    <div class="contact-sidebar">
+        <a href="https://zalo.me/0938118118" class="contact-button zalo" target="_blank">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span>Chat Zalo</span>
+        </a>
+        <a href="tel:0938118118" class="contact-button hotline">
+            <i class="fa-solid fa-phone-flip"></i>
+            <span>Gọi Hotline</span>
+        </a>
+        <a href="#" class="contact-button chat">
+            <i class="fa-solid fa-headset"></i>
+            <span>Chat trực tiếp</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            if (!productId) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+
+            if (product) {
+                document.title = `${product.name} | MijuMeat`;
+                document.getElementById('detail-name').textContent = product.name;
+                document.getElementById('detail-name-breadcrumb').textContent = product.name;
+                document.getElementById('detail-weight').textContent = `Khối lượng: ${product.weight || ''} ${product.unit || ''}`;
+                const categoryLink = document.getElementById('detail-category-link');
+                if (product.category === 'beef') {
+                    categoryLink.textContent = 'Thịt Bò';
+                    categoryLink.href = 'bo.html';
+                } else {
+                    categoryLink.textContent = 'Thịt Heo';
+                    categoryLink.href = 'heo.html';
+                }
+                document.getElementById('detail-image').src = product.image;
+                document.getElementById('detail-image').alt = product.name;
+                document.getElementById('detail-price').textContent = 'Giá: ' + product.price.toLocaleString('vi-VN') + '₫';
+                document.getElementById('detail-desc-text').innerHTML = (product.description || "Đang cập nhật mô tả...")
+                    .replace(/\n/g, '<br>')
+                    .replace(/(Mô tả ngắn:|Đặc điểm:|Chế biến:)/g, '<i>$1</i>');
+
+                if (product.inStock === false) {
+                    const addBtn = document.getElementById('add-to-cart-detail');
+                    addBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Sản phẩm hết hàng';
+                    addBtn.classList.add('btn-disabled');
+                    addBtn.disabled = true;
+
+                    // Hide quantity control for out of stock
+                    const qtyControl = document.querySelector('.qty-control');
+                    if (qtyControl) qtyControl.style.display = 'none';
+                } else {
+                    document.getElementById('add-to-cart-detail').onclick = () => {
+                        const qty = parseInt(document.getElementById('detail-qty-val').textContent);
+                        addToCart(product.id, qty);
+                    };
+                }
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function updateDetailQty(delta) {
+            const qtySpan = document.getElementById('detail-qty-val');
+            let currentQty = parseInt(qtySpan.textContent);
+            currentQty = Math.max(1, currentQty + delta);
+            qtySpan.textContent = currentQty;
+        }
+    </script>
+</body>
+
+</html>

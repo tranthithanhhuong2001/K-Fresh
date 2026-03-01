@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MijuMeat</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="notification.css">
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="mijumeat.html" class="logo">
+                <img src="logo.png" alt="MijuMeat Logo">
+            </a>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="mijumeat.html">Trang chủ</a></li>
+                    <li><a href="mijumeat.html#products">Sản phẩm</a></li>
+
+                    <li><a href="#footer">Liên hệ</a></li>
+                    <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span id="cart-count"
+                                class="badge">0</span></a></li>
+                    <li><a href="order-lookup.html">Tra cứu đơn hàng</a></li>
+                </ul>
+            </nav>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm...">
+                <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-slider">
+            <div class="slider-container" id="hero-slider">
+                <div class="slide active">
+                    <img src="bo-banner.jpg" alt="Banner 1">
+                    <div class="slide-content">
+                        <h2>Thịt Bò Thượng Hạng</h2>
+                        <p>Giảm đến 20% - Giao nhanh 2H</p>
+                        <a href="bo.html" class="btn-primary">Mua ngay <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="heo-banner.jpg" alt="Banner 2">
+                    <div class="slide-content">
+                        <h2>Thịt Heo Tươi Sạch</h2>
+                        <p>Chuẩn vị ngon - Ưu đãi hấp dẫn</p>
+                        <a href="heo.html" class="btn-primary">Mua ngay <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt="Banner 3">
+                    <div class="slide-content">
+                        <h2>Ưu Đãi Cuối Tuần</h2>
+                        <p>Thực phẩm sạch cho bữa cơm gia đình</p>
+                        <a href="#products" class="btn-primary">Khám phá <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="slider-nav prev" id="sliderPrev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="slider-nav next" id="sliderNext"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <div class="slider-dots" id="sliderDots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </section>
+
+        <!-- Features Highlights -->
+        <section class="features-section">
+            <div class="features-container">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-medal"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Bảo đảm chất lượng</h3>
+                        <p>Sản phẩm có nguồn gốc rõ ràng, nhập khẩu trực tiếp.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Miễn phí giao hàng</h3>
+                        <p>Áp dụng với tất cả các đơn hàng trên 1 triệu trong nội thành Thành phố Hồ Chí Minh.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Hỗ trợ 24/7</h3>
+                        <p>Hotline 0938.118.118 hoặc Fanpage: www.facebook.com/MijuMeat</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Đổi trả hàng</h3>
+                        <p>Đổi hàng miễn phí hoặc hoàn tiền 100% nếu sản phẩm lỗi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="flash-sale container">
+            <!-- Flash sale content will be rendered here if needed -->
+        </section>
+
+        <section id="products" class="products-section container">
+            <div class="section-header">
+                <h2>Sản Phẩm Của Chúng Tôi</h2>
+                <div class="category-cards">
+                    <a href="heo.html" class="category-card">
+                        <img src="heo-banner.jpg" alt="Thịt Heo">
+                        <div class="card-overlay">
+                            <span>Thịt Heo</span>
+                        </div>
+                    </a>
+                    <a href="bo.html" class="category-card">
+                        <img src="bo-banner.jpg" alt="Thịt Bò">
+                        <div class="card-overlay">
+                            <span>Thịt Bò</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="shop-filter-bar">
+                <div class="filter-controls">
+                    <div class="filter-item">
+                        <label>Danh mục</label>
+                        <select id="shop-category-filter" class="shop-select" onchange="applyShopFilters()">
+                            <option value="all">Tất cả</option>
+                            <option value="beef">Thịt Bò</option>
+                            <option value="pork">Thịt Heo</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Giá</label>
+                        <select id="shop-price-filter" class="shop-select" onchange="applyShopFilters()">
+                            <option value="all">Tất cả mức giá</option>
+                            <option value="0-100">Dưới 100.000₫</option>
+                            <option value="100-300">100.000₫ - 300.000₫</option>
+                            <option value="300-500">300.000₫ - 500.000₫</option>
+                            <option value="500-up">Trên 500.000₫</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sort-controls">
+                    <label>Sắp xếp:</label>
+                    <select id="shop-sort" class="shop-select" onchange="applyShopFilters()">
+                        <option value="newest">Mới nhất</option>
+                        <option value="price-asc">Giá: Thấp đến Cao</option>
+                        <option value="price-desc">Giá: Cao đến Thấp</option>
+                        <option value="best-selling">Bán chạy</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="product-list" class="product-grid">
+                <!-- Products will be rendered here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="container footer-content">
+            <div class="footer-info-left">
+                <a href="mijumeat.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                    <img src="logo.png" alt="Logo" style="height: 70px; border-radius: 10px;">
+                </a>
+                <p style="color: #888; margin-top: 10px; max-width: 400px;">Hệ thống cung cấp thịt bò, thịt heo tươi
+                    sạch hàng đầu, cam kết chất lượng chuẩn quốc tế cho bữa cơm gia đình bạn.</p>
+            </div>
+            <div class="footer-info-right">
+                <h3>THÔNG TIN LIÊN HỆ</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Địa chỉ: Số 5, Nội khu Hưng Phước 1, phường Tân Hưng, Thành
+                    phố Hồ Chí Minh.</p>
+                <p><i class="fa-solid fa-phone"></i> Hotline: 0938.118.118</p>
+                <p><i class="fa-solid fa-globe"></i> Fanpage: <a href="http://www.facebook.com/MijuMeat"
+                        style="color: #ccc; text-decoration: none;">www.facebook.com/MijuMeat</a></p>
+                <p><i class="fa-solid fa-envelope"></i> Gmail: MijuMeat@gmail.com</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MijuMeat. Chất lượng tạo nên thương hiệu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Sidebar -->
+    <div class="contact-sidebar">
+        <a href="https://zalo.me/0938118118" class="contact-button zalo" target="_blank">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span>Chat Zalo</span>
+        </a>
+        <a href="tel:0938118118" class="contact-button hotline">
+            <i class="fa-solid fa-phone-flip"></i>
+            <span>Gọi Hotline</span>
+        </a>
+        <a href="#" class="contact-button chat">
+            <i class="fa-solid fa-headset"></i>
+            <span>Chat trực tiếp</span>
+        </a>
+    </div>
+
+
+    <script src="notification.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

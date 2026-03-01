@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra cứu đơn hàng | MIJUMEAT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="notification.css">
+    <style>
+        .lookup-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .lookup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .lookup-header h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .lookup-header p {
+            color: #666;
+        }
+
+        .search-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+
+        .search-type {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .search-type label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #ee4d2d;
+        }
+
+        .btn-lookup {
+            background: #ee4d2d;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-lookup:hover {
+            background: #d63c1e;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .order-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+            margin-bottom: 15px;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-shipping {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .items-table th {
+            text-align: left;
+            color: #666;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .items-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ee4d2d;
+        }
+
+        .not-found {
+            text-align: center;
+            color: #dc3545;
+            padding: 20px;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+        }
+
+        .order-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0 30px;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .lookup-header h1 i {
+            margin-right: 10px;
+        }
+
+        .lookup-header h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-timeline::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .timeline-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #ccc;
+            transition: 0.3s;
+        }
+
+        .timeline-step.active .step-icon {
+            border-color: #ee4d2d;
+            background: #ee4d2d;
+            color: #fff;
+            box-shadow: 0 0 0 4px rgba(238, 77, 45, 0.1);
+        }
+
+        .timeline-step.completed .step-icon {
+            border-color: #ee4d2d;
+            background: #ee4d2d;
+            color: #fff;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .timeline-step.active .step-label,
+        .timeline-step.completed .step-label {
+            color: #ee4d2d;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="mijumeat.html" class="logo">
+                <img src="logo.png" alt="MijuMeat Logo">
+            </a>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="mijumeat.html">Trang chủ</a></li>
+                    <li><a href="mijumeat.html#products">Sản phẩm</a></li>
+
+                    <li><a href="#footer">Liên hệ</a></li>
+                    <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span id="cart-count"
+                                class="badge">0</span></a></li>
+                    <li><a href="order-lookup.html" class="active" style="color: #ee4d2d;">Tra cứu đơn hàng</a></li>
+                </ul>
+            </nav>
+
+            <div class="search-box">
+                <input type="text" id="header-search-input" placeholder="Tìm kiếm sản phẩm...">
+                <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="min-height: 600px;">
+        <div class="lookup-container">
+            <div class="lookup-header">
+                <h1><i class="fa-solid fa-magnifying-glass-location"></i> Tra cứu đơn hàng</h1>
+                <p>Vui lòng nhập mã đơn hàng, số điện thoại hoặc tên người nhận để tra cứu thông tin đơn hàng.</p>
+            </div>
+
+            <div class="search-form">
+                <div class="search-type">
+                    <label><input type="radio" name="searchType" value="id" checked> Mã đơn hàng</label>
+                    <label><input type="radio" name="searchType" value="phone"> Số điện thoại</label>
+                    <label><input type="radio" name="searchType" value="name"> Tên người nhận</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="lookup-input" placeholder="Nhập thông tin tra cứu...">
+                    <button class="btn-lookup" onclick="lookupOrder()">Tra cứu</button>
+                </div>
+                <div id="not-found-msg" class="not-found">
+                    <i class="fa-solid fa-circle-exclamation"></i> Không tìm thấy đơn hàng nào phù hợp. Vui lòng kiểm
+                    tra lại thông tin!
+                </div>
+            </div>
+
+            <div id="result-container" class="result-section">
+                <!-- Orders will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="container footer-content">
+            <div class="footer-info-left">
+                <a href="mijumeat.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                    <img src="logo.png" alt="Logo" style="height: 70px; border-radius: 10px;">
+                </a>
+                <p style="color: #888; margin-top: 10px; max-width: 400px;">Hệ thống cung cấp thịt bò, thịt heo tươi
+                    sạch hàng đầu, cam kết chất lượng chuẩn quốc tế cho bữa cơm gia đình bạn.</p>
+            </div>
+            <div class="footer-info-right">
+                <h3>THÔNG TIN LIÊN HỆ</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Địa chỉ: Số 5, Nội khu Hưng Phước 1, phường Tân Hưng, Thành
+                    phố Hồ Chí Minh.</p>
+                <p><i class="fa-solid fa-phone"></i> Hotline: 0938.118.118</p>
+                <p><i class="fa-solid fa-globe"></i> Fanpage: <a href="http://www.facebook.com/MijuMeat"
+                        style="color: #ccc; text-decoration: none;">www.facebook.com/MijuMeat</a></p>
+                <p><i class="fa-solid fa-envelope"></i> Gmail: MijuMeat@gmail.com</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MijuMeat. Chất lượng tạo nên thương hiệu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
+        }
+
+        function lookupOrder() {
+            const input = document.getElementById('lookup-input').value.trim().toLowerCase();
+            const type = document.querySelector('input[name="searchType"]:checked').value;
+            const container = document.getElementById('result-container');
+            const notFound = document.getElementById('not-found-msg');
+
+            if (!input) {
+                alert('Vui lòng nhập thông tin cần tra cứu!');
+                return;
+            }
+
+            // Get orders from admin storage (source of truth)
+            const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+
+            const results = allOrders.filter(order => {
+                if (type === 'id') return order.orderId.toLowerCase() === input;
+                if (type === 'phone') return order.customer.phone.includes(input);
+                if (type === 'name') return order.customer.name.toLowerCase().includes(input);
+                return false;
+            });
+
+            if (results.length === 0) {
+                container.style.display = 'none';
+                notFound.style.display = 'block';
+            } else {
+                notFound.style.display = 'none';
+                container.style.display = 'block';
+                renderResults(results);
+            }
+        }
+
+        function renderResults(orders) {
+            const container = document.getElementById('result-container');
+            container.innerHTML = orders.map(order => {
+                const status = order.status || 'Chờ xác nhận';
+                let statusClass = 'status-pending';
+                if (status === 'Đã xác nhận') statusClass = 'status-confirmed';
+                if (status === 'Đang chuẩn bị hàng') statusClass = 'status-confirmed'; // Keep same color or add new one
+                if (status === 'Đang giao hàng') statusClass = 'status-shipping';
+                if (status === 'Hoàn tất') statusClass = 'status-completed';
+                if (status === 'Đã huỷ') statusClass = 'status-cancelled';
+
+                // Helper to format address
+                const formatAddress = (addr) => {
+                    if (!addr) return '';
+                    let index = addr.indexOf('(');
+                    if (index === -1) index = addr.indexOf('（');
+                    if (index !== -1) {
+                        const mainAddr = addr.substring(0, index).trim();
+                        const areaInfo = addr.substring(index);
+                        return mainAddr + ' <span style="font-size: 0.9em; font-style: italic; color:#666;">' + areaInfo + '</span>';
+                    }
+                    return addr;
+                };
+
+                return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <strong style="font-size: 1.1rem; color: #333;">${order.orderId}</strong>
+                            <div style="font-size: 0.9rem; color: #888; margin-top: 4px;">${order.orderTime}</div>
+                        </div>
+                        <span class="status-badge ${statusClass}">${status}</span>
+                    </div>
+                    
+                    ${createTimeline(status)}
+                    
+                    <div style="margin-bottom: 20px; font-size: 0.95rem;">
+                        <div style="margin-bottom: 5px;"><strong>Người nhận:</strong> ${order.customer.name} - ${order.customer.phone}</div>
+                        <div style="margin-bottom: 5px; color: #555;"><strong>Địa chỉ:</strong> ${formatAddress(order.customer.address)}</div>
+                        <div style="color: #555;"><strong>Phương thức thanh toán:</strong> ${order.paymentMethod || 'Tiền mặt khi nhận hàng (COD)'}</div>
+                    </div>
+
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th style="text-align: center;">SL</th>
+                                <th style="text-align: right;">Đơn giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${order.items.map(item => `
+                                <tr>
+                                    <td>${item.name}</td>
+                                    <td style="text-align: center;">x${item.quantity}</td>
+                                    <td style="text-align: right;">${formatPrice(item.price)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <div class="total-row">
+                        Tổng thanh toán: ${formatPrice(order.totals.grandTotal)}
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function createTimeline(status) {
+            if (status === 'Đã huỷ') return '';
+
+            const steps = [
+                { label: 'Chờ xác nhận', icon: 'fa-file-invoice' },
+                { label: 'Đã xác nhận', icon: 'fa-check' },
+                { label: 'Đang chuẩn bị', icon: 'fa-box' },
+                { label: 'Đang giao hàng', icon: 'fa-truck-fast' },
+                { label: 'Hoàn tất', icon: 'fa-house-circle-check' }
+            ];
+
+            // Determine current active index
+            let activeIndex = 0;
+            if (status === 'Đã xác nhận') activeIndex = 1;
+            if (status === 'Đang chuẩn bị hàng') activeIndex = 2;
+            if (status === 'Đang giao hàng') activeIndex = 3;
+            if (status === 'Hoàn tất') activeIndex = 4;
+
+            return `
+            <div class="order-timeline">
+                ${steps.map((step, index) => {
+                let className = 'timeline-step';
+                if (index < activeIndex) className += ' completed';
+                if (index === activeIndex) className += ' active';
+
+                return `
+                    <div class="${className}">
+                        <div class="step-icon"><i class="fa-solid ${step.icon}"></i></div>
+                        <div class="step-label">${step.label}</div>
+                    </div>
+                    `;
+            }).join('')}
+            </div>
+            `;
+        }
+
+        // Allow enter key to search
+        document.getElementById('lookup-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                lookupOrder();
+            }
+        });
+
+        // Auto lookup if ID is in URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+            if (orderId) {
+                document.getElementById('lookup-input').value = orderId;
+                lookupOrder();
+            }
+        });
+    </script>
+    <script src="notification.js"></script>
+</body>
+
+</html>
