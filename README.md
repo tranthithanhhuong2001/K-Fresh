@@ -8,6 +8,7 @@ Dự án đã được triển khai và có thể truy cập trực tuyến tạ
 
 *   **Trang chủ khách hàng:** [https://tranthithanhhuong2001.github.io/K-Fresh/](https://tranthithanhhuong2001.github.io/K-Fresh/)
 *   **Hệ quản trị (Admin Dashboard):** [https://tranthithanhhuong2001.github.io/K-Fresh/admin-dashboard.html](https://tranthithanhhuong2001.github.io/K-Fresh/admin-dashboard.html)
+*   **Tài liệu SRS (Software Requirement Specification):** [Xem file PDF](./K-FRESH_SRS.pdf)
 
 ---
 
@@ -50,7 +51,16 @@ Dự án được xây dựng với các công nghệ web hiện đại mà khô
 
 ---
 
-## 📞 Liên hệ
+## � Tài liệu Dự án
+ 
+ Xem chi tiết tài liệu yêu cầu hệ thống (SRS) của dự án K-FreshMeat tại đây:
+ 
+ [![Xem tài liệu SRS](https://img.shields.io/badge/SRS%20Document-PDF-red?style=for-the-badge&logo=adobe-acrobat-reader)](./K-FRESH_SRS.pdf)
+ 
+ ---
+ 
+ ## �📞 Liên hệ
+
 
 *   **Địa chỉ:** Số 5, Nội khu Hưng Phước 1, phường Tân Hưng, Thành phố Hồ Chí Minh.
 *   **Hotline:** 0938.118.118
